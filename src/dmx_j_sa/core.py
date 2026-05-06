@@ -18,7 +18,7 @@ import time
 from enum import IntEnum, IntFlag
 from typing import Optional
 
-from performax import PerformaxDLL, PerformaxError
+from .performax import PerformaxDLL, PerformaxError
 
 
 class DmxError(PerformaxError):

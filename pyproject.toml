@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dmx-j-sa"
+version = "0.1.0"
+description = "Python wrapper for Arcus DMX-J-SA integrated step motor (USB 2.0, PerformaxCom.dll)"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Yossi Abutbul" }]
+keywords = ["arcus", "dmx-j-sa", "stepper", "motor", "performax", "usb"]
+classifiers = [
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Topic :: System :: Hardware :: Hardware Drivers",
+]
+
+[project.urls]
+Homepage = "https://github.com/YossiAbutbul/DMX-J-SA-Motor-python-interface"
+Issues = "https://github.com/YossiAbutbul/DMX-J-SA-Motor-python-interface/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"dmx_j_sa" = ["dlls/*.dll"]

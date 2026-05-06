@@ -8,21 +8,43 @@ Python wrapper for **Arcus DMX-J-SA** integrated NEMA 17 step motor + driver + c
 - Python 3.8+ (32-bit OR 64-bit — bundled DLLs are x64; for 32-bit Python, replace with x86 build)
 - External **+12 to +24 VDC** on V+ pin. USB alone won't power the motor windings — comms will work but motor won't move.
 
+## Install
+
+From git (in any consumer project):
+```
+pip install git+https://github.com/YossiAbutbul/DMX-J-SA-Motor-python-interface.git
+```
+
+Editable (for local development):
+```
+git clone https://github.com/YossiAbutbul/DMX-J-SA-Motor-python-interface.git
+pip install -e DMX-J-SA-Motor-python-interface
+```
+
+DLLs are shipped inside the package — no separate setup.
+
 ## Repo layout
 
 ```
 .
-├── dmx_j_sa.py        # high-level DmxJsa class
-├── performax.py       # ctypes wrapper of PerformaxCom.dll
-├── example.py         # smoke test (1 rev)
-├── dlls/              # bundled x64 driver DLLs (auto-loaded)
-│   ├── PerformaxCom.dll
-│   └── SiUSBXp.dll
-└── docs/
-    └── API.md         # full Python API reference
+├── pyproject.toml
+├── src/
+│   └── dmx_j_sa/
+│       ├── __init__.py     # public API: DmxJsa, MotorStatus, ...
+│       ├── core.py         # DmxJsa class
+│       ├── performax.py    # ctypes wrap of PerformaxCom.dll
+│       └── dlls/           # bundled x64 driver DLLs (loaded via package data)
+│           ├── PerformaxCom.dll
+│           └── SiUSBXp.dll
+├── examples/
+│   ├── basic.py            # 1-rev smoke test
+│   └── jog_continuous.py   # continuous jog with Ctrl+C stop
+├── docs/
+│   └── API.md              # full Python API reference
+└── README.md
 ```
 
-`performax.py` searches `./dlls/` first, then the script directory, then `PATH`.
+DLL search order: package `dlls/` dir → fallback `./dlls/` next to caller → system `PATH`.
 
 ## Quick start
 
