@@ -249,11 +249,18 @@ class DmxJsa:
         return MotorStatus(self.query_int("MST"))
 
     def is_moving(self) -> bool:
-        return bool(self.status & (
-            MotorStatus.CONST_SPEED | MotorStatus.ACCEL | MotorStatus.DECEL
-        ))
+        last_exc: Optional[PerformaxError] = None
+        for _ in range(5):
+            try:
+                return bool(self.status & (
+                    MotorStatus.CONST_SPEED | MotorStatus.ACCEL | MotorStatus.DECEL
+                ))
+            except PerformaxError as e:
+                last_exc = e
+                time.sleep(0.02)
+        raise last_exc  # type: ignore[misc]
 
-    def wait_until_idle(self, poll_s: float = 0.02, timeout_s: Optional[float] = None) -> None:
+    def wait_until_idle(self, poll_s: float = 0.05, timeout_s: Optional[float] = None) -> None:
         t0 = time.monotonic()
         while self.is_moving():
             if timeout_s is not None and time.monotonic() - t0 > timeout_s:

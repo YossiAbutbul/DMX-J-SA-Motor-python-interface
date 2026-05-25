@@ -3,7 +3,7 @@ from dmx_j_sa import DmxJsa
 
 
 def main():
-    with DmxJsa.open_first() as m:
+    with DmxJsa.open_first(read_timeout_ms=2000, write_timeout_ms=2000) as m:
         print(f"{m.product_id} fw={m.firmware_version} name={m.device_name}")
 
         m.enable(True)
